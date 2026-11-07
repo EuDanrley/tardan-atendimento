@@ -1,0 +1,3 @@
+﻿id;tema;pergunta;outras_formas;resposta_aprovada;fonte;passar_para_humano_quando;encaminhar_para;status;aprovado_por;revisado_em
+B-00;Encaminhamento;(mensagem padrão quando a IA não pode responder);—;[ESCREVA AQUI a mensagem que o cliente recebe quando o caso vai para uma pessoa. Não prometa prazo que você não cumpre.];[ex.: Política de atendimento v1];Destino padrão: tudo que não tem linha aprovada ou não diz para quem vai;[ESCREVA: quem atende o que não está na base];rascunho;;
+B-01;[tema];[pergunta como o cliente faz];[outras formas de perguntar, separadas por ponto de interrogação];[resposta aprovada, só com o que está na sua regra];[documento e item da regra, com versão];[situações em que vai para uma pessoa];[equipe ou pessoa];rascunho;;

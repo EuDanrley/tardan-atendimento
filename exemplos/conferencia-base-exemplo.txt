@@ -1,0 +1,59 @@
+# Conferência da base — executado em 2026-11-02 (Windows, Python 3.11.9, openpyxl 3.1.5)
+
+$ python scripts/gerar_planilha.py exemplos/base-respostas-exemplo.csv exemplos/base-respostas-exemplo.xlsx
+OK: 15 linhas de base-respostas-exemplo.csv -> exemplos\base-respostas-exemplo.xlsx
+
+$ python scripts/gerar_planilha.py modelos/base-respostas-modelo.csv modelos/base-respostas-modelo.xlsx
+OK: 2 linhas de base-respostas-modelo.csv -> modelos\base-respostas-modelo.xlsx
+
+$ python scripts/conferir_base.py exemplos/base-respostas-exemplo.xlsx
+Base: base-respostas-exemplo.xlsx
+Linhas: 15
+  aprovada: 14
+  rascunho: 0
+  A CONFIRMAR: 1
+Erros: 0
+Avisos: 1
+  [AVISO] B-04: destino do encaminhamento ainda A DEFINIR
+A IA só deve usar as linhas 'aprovada'.
+(código de saída: 0)
+
+$ python scripts/conferir_base.py modelos/base-respostas-modelo.xlsx
+Base: base-respostas-modelo.xlsx
+Linhas: 2
+  aprovada: 0
+  rascunho: 2
+  A CONFIRMAR: 0
+Erros: 0
+Avisos: 1
+  [AVISO] Sem B-00 aprovada (mensagem padrão de encaminhamento). A IA vai improvisar a mensagem.
+A IA só deve usar as linhas 'aprovada'.
+(código de saída: 0)
+
+$ python scripts/conferir_base.py base-com-erros.csv
+# base FICTÍCIA propositalmente errada, com números obviamente falsos, criada só para testar o conferidor (não incluída no repositório):
+#   id;tema;pergunta;outras_formas;resposta_aprovada;fonte;passar_para_humano_quando;encaminhar_para;status;aprovado_por;revisado_em
+#   B-01;Prazo;Chega amanhã?;—;Com certeza chega amanhã, garanto.;;Cliente exige data;;aprovada;;2026-11-01
+#   B-01;Troca;Prazo de troca?;—;A CONFIRMAR;POL-08;Sempre;Pós-venda;aprovada;Dona;2026-11-01
+#   B-02;Cliente;Pedido da cliente;—;Cliente CPF 000.000.000-00 tel (00) 90000-0000 pediu troca;POL-08;—;—;aprovado;Dona;2026-11-01
+Base: base-com-erros.csv
+Linhas: 3
+  aprovada: 2
+  rascunho: 0
+  A CONFIRMAR: 0
+  status inválido: 1
+Erros: 6
+  [ERRO] ID repetido: B-01 aparece 2 vezes
+  [ERRO] B-01: aprovada, mas sem fonte
+  [ERRO] B-01: aprovada, mas a resposta contém A CONFIRMAR
+  [ERRO] B-02: status 'aprovado' inválido (use aprovada, rascunho ou A CONFIRMAR)
+  [ERRO] B-02: possível dado pessoal (CPF). Retire antes de usar com IA.
+  [ERRO] B-02: possível dado pessoal (telefone). Retire antes de usar com IA.
+Avisos: 5
+  [AVISO] B-01: tem regra de passagem para pessoa, mas não diz para quem
+  [AVISO] B-01: aprovada, mas sem 'aprovado por'
+  [AVISO] B-01: contém 'garanto'. Confira se não é promessa sem regra.
+  [AVISO] B-01: contém 'com certeza'. Confira se não é promessa sem regra.
+  [AVISO] Sem B-00 aprovada (mensagem padrão de encaminhamento). A IA vai improvisar a mensagem.
+Corrija os erros antes de entregar a base para a IA.
+(código de saída: 1)
